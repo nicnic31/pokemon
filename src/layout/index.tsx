@@ -6,9 +6,9 @@ interface ILayoutProps {
 
 export default function Layout({ children }: ILayoutProps) {
   return (
-    <div className="w-full h-full">
+    <div className="w-full font-sans">
       <Navbar />
-      <div className="mt-[80px] bg-red-500 pt-5 pb-2 px-3 xs:px-1 sm:px-2 md:px-4 lg:px-24">
+      <div className="mt-[90px] h-[88vh] pt-5 pb-2 px-4 sm:px-3 md:px-12 lg:px-28">
         {children}
       </div>
     </div>

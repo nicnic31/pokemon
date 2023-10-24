@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CloseIcon from "../icon/close";
+import Button from "../ui/button/button";
 
 const menu = [
   {
@@ -78,29 +79,33 @@ export default function Navbar() {
 
         <div className="flex h-full justify-end items-center md:flex lg:hidden">
           {isMenuOpen ? (
-            <button
-              className="p-2 rounded-full hover:bg-gray-200"
+            <Button
+              shape="circle"
+              color="gray"
+              variant="text"
               onClick={() => setIsMenuOpen(false)}
             >
               <CloseIcon />
-            </button>
+            </Button>
           ) : (
-            <button
-              className="p-2 rounded-full hover:bg-gray-200"
+            <Button
+              shape="circle"
+              color="gray"
+              variant="text"
               onClick={() => setIsMenuOpen(true)}
             >
               <Menu />
-            </button>
+            </Button>
           )}
         </div>
 
         {isMenuOpen && (
-          <div className="absolute w-full top-20 left-0 transition ease-in-out delay-150 sm:top-20 md:top-20 lg:top-[-500px]">
-            <div className="flex flex-col gap-7 justify-center px-2 items-center w-full bg-inherit h-[88vh]">
+          <div className="bg-[#F5F7F8] absolute w-full top-20 left-0 transition ease-in-out delay-150 sm:top-20 md:top-20 lg:top-[-500px]">
+            <div className="flex flex-col gap-7 justify-center px-2 items-center w-full bg-inherit h-[89vh]">
               {mobileMenu.map((menu) => (
                 <button
                   key={menu.id}
-                  className="rounded text-slate-600 font-semibold tracking-wide text-base w-full p-3 hover:text-yellow-400 hover:bg-yellow-50 focus:bg-yellow-50 focus:text-yellow-500"
+                  className="rounded text-slate-600 font-semibold tracking-wide text-base w-full p-3 hover:text-white hover:bg-dark-yellow focus:bg-yellow focus:text-white"
                   onClick={() => handleMobileMenu(menu.path)}
                 >
                   {menu.label}
