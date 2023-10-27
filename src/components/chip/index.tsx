@@ -23,8 +23,10 @@ interface ChipProps {
   isFullWidth?: boolean;
   isChipSelected?: boolean;
   isDelete?: boolean;
+  isClickable?: boolean;
   className?: string;
   handleDeleteChip?: (title: string) => void;
+  handleChip?: (title: string) => void;
 }
 
 const colorsPalette: Palette[] = [
@@ -85,14 +87,16 @@ export default function Chip({
   size = "small",
   isFullWidth = false,
   isChipSelected = false,
-  isDelete = true,
+  isDelete = false,
+  isClickable = false,
   className,
-  handleDeleteChip = () => {},
+  handleDeleteChip = (title: string) => {},
+  handleChip = (title: string) => {},
 }: ChipProps) {
   return (
     <div
       className={cn(
-        "border flex flex-row justify-center font-medium items-center gap-2",
+        "border font-medium items-center gap-2 flex flex-row items-center",
         isChipSelected
           ? selectedColorStyle(color, selectedColorsPalette)
           : selectedColorStyle(color, colorsPalette),
@@ -101,22 +105,28 @@ export default function Chip({
         size === "small"
           ? "text-sm p-1"
           : size === "medium"
-          ? "text-base p-2"
-          : "text-lg p-3",
+          ? "text-sm p-2 sm:text-sm md:text-base"
+          : "text-base p-3 sm:text-base lg:text-lg",
         className
       )}
+      onClick={() => isClickable && handleChip(title)}
     >
-      {icon && icon}
-      <p>{title}</p>
+      <div className="flex flex-row justify-start items-center w-full gap-3">
+        {icon && icon}
+        <p>{title}</p>
+      </div>
+
       {isDelete && (
-        <Button
-          color="gray"
-          shape="circle"
-          className="ml-3 p-1"
-          onClick={() => handleDeleteChip(title)}
-        >
-          <SmallCloseIcon />
-        </Button>
+        <div className="text-right">
+          <Button
+            color="gray"
+            shape="circle"
+            className="ml-3 p-1"
+            onClick={() => handleDeleteChip(title)}
+          >
+            <SmallCloseIcon />
+          </Button>
+        </div>
       )}
     </div>
   );

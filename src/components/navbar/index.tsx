@@ -53,7 +53,7 @@ export default function Navbar() {
     setIsMenuOpen(false);
   };
   return (
-    <div className="fixed top-0 bg-[#F5F7F8] h-[80px] border-b border-gray-300 w-full py-1 px-3 xs:px-1 sm:px-2 md:px-4 lg:px-24">
+    <div className="fixed top-0 bg-[#F5F7F8] h-[80px] z-10 border-b border-gray-300 w-full py-1 px-3 xs:px-1 sm:px-2 md:px-4 lg:px-24">
       <div className="grid grid-cols-2">
         <Image
           src={PokemonLogo}
