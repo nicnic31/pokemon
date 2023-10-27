@@ -1,25 +1,45 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "@/layout/pageLayout";
 import { GET_POKEMONS } from "@/queries/pokemons";
 import { useQueryData } from "@/hooks/useQueryData";
 import Search from "@/components/search";
 import Button from "@/components/ui/button";
 import FilterIcon from "@/components/icon/filter";
-import Modal from "@/components/modal.tsx";
-import useModal from "@/components/modal.tsx/context";
+import useModal from "@/components/modal/context";
+import Card from "@/components/card";
+
+export type Pokemons = {
+  id: string;
+  image: string;
+  name: string;
+  number: string;
+  types: Array<string>;
+};
 
 export default function Pokedex() {
-  const [variables, setVariables] = useState({ first: 20 });
+  const [variables, setVariables] = useState({ first: 10 });
+  const [pokemons, setPokemons] = useState<Pokemons[]>([]);
   const [name, setName] = useState<string>("");
 
   const { openModal } = useModal((state) => ({ openModal: state.openModal }));
-  const { data } = useQueryData("pokemons", GET_POKEMONS, { ...variables });
+  const { data }: any = useQueryData("pokemons", GET_POKEMONS, {
+    ...variables,
+  });
 
-  console.log("data", data);
+  useEffect(() => {
+    if (data) {
+      setPokemons(data?.pokemons);
+    } else {
+      setPokemons([]);
+    }
+  }, [data]);
+
+  console.log("data", data?.pokemons);
+  console.log("data pokemons", pokemons);
   return (
     <Layout>
-      <div className="flex flex-row align-items gap-2">
+      <div className="flex flex-row align-items gap-2 mb-5">
         <div className="w-full">
           <Search
             placeholder="Search by name..."
@@ -29,10 +49,18 @@ export default function Pokedex() {
         </div>
 
         <div className="">
-          <Button className="h-full px-3" onClick={() => openModal("FILTER_MODAL", "jjjj")}>
+          <Button
+            className="h-full px-3"
+            onClick={() => openModal("FILTER_MODAL", "")}
+          >
             <FilterIcon />
           </Button>
         </div>
+      </div>
+      <div className="gridgrid-cols-4">
+        {pokemons.map((pokemon, idx) => (
+          <Card pokemon={pokemon} key={idx} />
+        ))}
       </div>
     </Layout>
   );

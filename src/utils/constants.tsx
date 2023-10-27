@@ -36,4 +36,5 @@ export const pokemonTypes = [
   { label: "Ice", icon: <IceIcon /> },
   { label: "Pyschic", icon: <PsychicIcon /> },
   { label: "Water", icon: <WaterIcon /> },
+  { label: "Grass", icon: <GroundIcon /> },
 ];
