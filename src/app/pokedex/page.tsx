@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Layout from "@/layout";
+import Layout from "@/layout/pageLayout";
 import { GET_POKEMONS } from "@/queries/pokemons";
 import { useQueryData } from "@/hooks/useQueryData";
 import Search from "@/components/search";
@@ -24,7 +24,7 @@ export default function Pokedex() {
           />
         </div>
 
-        <div>
+        <div className="relative">
           <Button className="h-full px-3">
             <FilterIcon />
           </Button>

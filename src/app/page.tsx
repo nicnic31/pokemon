@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Layout from "@/layout";
+import Layout from "@/layout/pageLayout";
 import PokemonBanner from "@/assets/image/banner.png";
 import Button from "@/components/ui/button";
 import PokemonIcon from "@/components/icon/pokemon";
