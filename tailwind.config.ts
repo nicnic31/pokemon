@@ -11,14 +11,18 @@ const config: Config = {
     extend: {
       colors: {
         yellow: "#F4CE14",
+        "light-yellow": "#FFFD8C",
         "dark-yellow": "#E9B824",
         gray: "#7D7C7C",
+        "light-gray": "#D0D4CA",
         "dark-gray": "#61677A",
         blue: "#00A9FF",
         "dark-blue": "#337CCF",
         red: "#FF6969",
+        "light-red": "#FF9B9B",
         "dark-red": "#D80032",
         green: "#748E63",
+        "light-green": "#A7D397",
         "dark-green": "#445D48",
       },
       backgroundImage: {
