@@ -61,7 +61,7 @@ export default function Card({ pokemon }: ICardProps) {
               key={idx}
               className="bg-slate-50 my-2 p-1 text-center rounded-full"
             >
-              <p className="text-sm text-slate-600 font-medium">{type}</p>
+              <p className="text-xs text-slate-600 font-medium sm:text-xs md:text-sm">{type}</p>
             </div>
           ))}
         </div>
@@ -69,7 +69,7 @@ export default function Card({ pokemon }: ICardProps) {
           <img
             src={pokemon?.image}
             alt={pokemon?.name}
-            className="w-full h-[180px] object-fill mix-blend-multiply contrast-[1]"
+            className="w-full h-[100px] object-fill mix-blend-multiply contrast-[1] sm:h-[100px] md:h-[120px] lg:h-[180px]"
           />
         </div>
       </div>
