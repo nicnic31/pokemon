@@ -1,3 +1,4 @@
+"use client";
 import Modal from "@/components/modal";
 import useModal from "@/components/modal/context";
 import Navbar from "@/components/navbar";

@@ -18,7 +18,7 @@ export type Pokemons = {
 };
 
 export default function Pokedex() {
-  const [variables, setVariables] = useState({ first: 10 });
+  const [variables, setVariables] = useState({ first: 100 });
   const [pokemons, setPokemons] = useState<Pokemons[]>([]);
   const [name, setName] = useState<string>("");
 
@@ -57,7 +57,7 @@ export default function Pokedex() {
           </Button>
         </div>
       </div>
-      <div className="gridgrid-cols-4">
+      <div className="grid grid-cols-2 gap-5 pb-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {pokemons.map((pokemon, idx) => (
           <Card pokemon={pokemon} key={idx} />
         ))}
