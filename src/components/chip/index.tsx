@@ -103,7 +103,7 @@ export default function Chip({
         shape === "rounded" ? "rounded-md" : "rounded-full",
         isFullWidth ? "w-full" : "w-fit",
         size === "small"
-          ? "text-sm p-1"
+          ? "text-sm py-1 px-2"
           : size === "medium"
           ? "text-sm p-2 sm:text-sm md:text-base"
           : "text-base p-3 sm:text-base lg:text-lg",
