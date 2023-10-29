@@ -17,8 +17,10 @@ export type Pokemons = {
   types: Array<string>;
 };
 
+const convertIntoLowerCase = (word: string) => word.toLowerCase();
+
 export default function Pokedex() {
-  const [variables, setVariables] = useState({ first: 100 });
+  const [variables, setVariables] = useState({ first: 10 });
   const [pokemons, setPokemons] = useState<Pokemons[]>([]);
   const [name, setName] = useState<string>("");
 
@@ -34,6 +36,21 @@ export default function Pokedex() {
       setPokemons([]);
     }
   }, [data]);
+
+  useEffect(() => {
+    const storage = [...pokemons];
+    if (name !== "") {
+      const filteredPokemons = storage.filter((pokemon) => {
+        const lowerCaseName = convertIntoLowerCase(pokemon.name);
+        const lowerCaseSearch = convertIntoLowerCase(name);
+        return lowerCaseName.includes(lowerCaseSearch);
+      });
+
+      setPokemons(filteredPokemons);
+    } else {
+      setPokemons(data?.pokemons);
+    }
+  }, [name]);
 
   console.log("data", data?.pokemons);
   console.log("data pokemons", pokemons);
@@ -58,9 +75,8 @@ export default function Pokedex() {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-5 pb-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {pokemons.map((pokemon, idx) => (
-          <Card pokemon={pokemon} key={idx} />
-        ))}
+        {pokemons &&
+          pokemons?.map((pokemon, idx) => <Card pokemon={pokemon} key={idx} />)}
       </div>
     </Layout>
   );
