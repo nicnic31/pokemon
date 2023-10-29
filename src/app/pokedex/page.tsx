@@ -9,6 +9,8 @@ import FilterIcon from "@/components/icon/filter";
 import useModal from "@/components/modal/context";
 import Card from "@/components/card";
 import Loader from "@/components/loader";
+import useFilterType from "@/stores/useFilterType";
+import FilterStorage from "@/components/filterStorage";
 
 export type Pokemons = {
   id: string;
@@ -25,10 +27,21 @@ export default function Pokedex() {
   const { data, isLoading }: any = useQueryData("pokemons", GET_POKEMONS, {
     first: 20,
   });
+  const { filter, clearFilter, setFilter } = useFilterType((state) => ({
+    filter: state.filter,
+    clearFilter: state.clearFilter,
+    setFilter: state.setFilter,
+  }));
 
   const [pokemons, setPokemons] = useState<Pokemons[]>([]);
   const [name, setName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(isLoading);
+
+  const handleFilterChip = (title: string) => {
+    const storage = [...filter];
+    const filteredStorage = storage.filter((value) => value !== title);
+    setFilter(filteredStorage);
+  };
 
   useEffect(() => {
     if (data) {
@@ -77,10 +90,18 @@ export default function Pokedex() {
           </Button>
         </div>
       </div>
+      {filter.length > 1 && (
+        <FilterStorage
+          filters={filter}
+          handleClear={() => clearFilter()}
+          handleDeleteChip={handleFilterChip}
+        />
+      )}
+
       {loading ? (
         <Loader />
       ) : (
-        <div className="grid grid-cols-2 gap-5 pb-7 mt-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-5 pb-7 mt-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {pokemons &&
             pokemons?.map((pokemon, idx) => (
               <Card pokemon={pokemon} key={idx} />

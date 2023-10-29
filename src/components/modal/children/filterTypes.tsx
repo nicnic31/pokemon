@@ -3,11 +3,24 @@ import CloseIcon from "@/components/icon/close";
 import Button from "@/components/ui/button";
 import { pokemonTypes } from "@/utils/constants";
 import useModal from "../context";
+import useFilterType from "@/stores/useFilterType";
 
 export default function FilterTypesModal() {
   const { closeModal } = useModal((state) => ({
     closeModal: state.closeModal,
   }));
+
+  const { filter, setFilter } = useFilterType((state) => ({
+    filter: state.filter,
+    setFilter: state.setFilter,
+  }));
+
+  const handleChip = (title: string) => {
+    const storage = [...filter];
+    storage.push(title);
+    setFilter(storage)
+    console.log("filter chip", title);
+  }
 
   return (
     <div className="bg-white w-[90%] absolute top-[40%] left-[15%] -translate-y-[40%] -translate-x-[10%] py-2 px-2 rounded-md h-min-[40%] max-h-[90%] overflow-y-auto sm:px-2 sm:w-[90%] md:px-4 md:w-[75%] md:left-[20%] md:top-[45%] lg:w-1/2 lg:left-[30%] lg:px-5">
@@ -36,6 +49,9 @@ export default function FilterTypesModal() {
             color="gray"
             size="medium"
             className="hover:bg-dark-gray hover:text-white cursor-pointer"
+            handleChip={handleChip}
+            isClickable
+            isChipSelected={filter.includes(type.label)}
           />
         ))}
       </div>
