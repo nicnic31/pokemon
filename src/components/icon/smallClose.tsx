@@ -1,8 +1,8 @@
 export default function SmallCloseIcon(props: React.SVGAttributes<{}>) {
     return (
       <svg
-        width="12px"
-        height="12px"
+        width="15px"
+        height="15px"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
