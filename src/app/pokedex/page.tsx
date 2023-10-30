@@ -38,7 +38,7 @@ const checkTypeExist = (filterTypes: string[], type: string) =>
 export default function Pokedex() {
   const { openModal } = useModal((state) => ({ openModal: state.openModal }));
   const { data, isLoading }: any = useQueryData("pokemons", GET_POKEMONS, {
-    first: 20,
+    first: 100,
   });
   const { filter, clearFilter, setFilter } = useFilterType((state) => ({
     filter: state.filter,
@@ -51,6 +51,8 @@ export default function Pokedex() {
   const [pokemons, setPokemons] = useState<Pokemons[]>([]);
   const [name, setName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(isLoading);
+  const [maxIndex, setMaxIndex] = useState<number>(20);
+  const [totalPokemon, setTotalPokemon] = useState<number>(0);
 
   const handleFilterChip = (title: string) => {
     const storage = [...filter];
@@ -58,11 +60,17 @@ export default function Pokedex() {
     setFilter(filteredStorage);
   };
 
+  const handleLoadMoreBtn = () => {
+    setMaxIndex((prev) => prev + 20);
+  };
+
   useEffect(() => {
     if (data) {
       setPokemons(data?.pokemons);
+      setTotalPokemon(data?.pokemons.length);
     } else {
       setPokemons([]);
+      setTotalPokemon(0);
     }
     setLoading(false);
   }, [data]);
@@ -92,6 +100,7 @@ export default function Pokedex() {
         });
       });
       setPokemons(newPokemonStorage);
+      setTotalPokemon(newPokemonStorage.length);
     } else if (name !== "" && filter.length === 0) {
       const filteredPokemons = pokemonsStorage.filter((pokemon) => {
         const pokemonNameLowerCase = convertIntoLowerCase(pokemon.name);
@@ -99,6 +108,7 @@ export default function Pokedex() {
       });
 
       setPokemons(filteredPokemons);
+      setTotalPokemon(filteredPokemons.length);
     } else if (name === "" && filter.length > 0) {
       const newPokemonStorage: Pokemons[] = [];
       pokemonsStorage.forEach((pokemon) => {
@@ -115,9 +125,13 @@ export default function Pokedex() {
       });
 
       setPokemons(newPokemonStorage);
+      setTotalPokemon(newPokemonStorage.length);
     } else {
       setPokemons(pokemonData);
+      setTotalPokemon(pokemonData.length);
     }
+
+    setMaxIndex(20);
   }, [filter, name]);
 
   return (
@@ -148,7 +162,16 @@ export default function Pokedex() {
         />
       )}
       <div className="h-[80%]">
-        {loading ? <Loader /> : <PokedexContent pokemons={pokemons} />}
+        {loading ? (
+          <Loader />
+        ) : (
+          <PokedexContent
+            pokemons={pokemons}
+            handleLoad={handleLoadMoreBtn}
+            maxIndex={maxIndex}
+            totalPokemon={totalPokemon}
+          />
+        )}
       </div>
     </Layout>
   );
