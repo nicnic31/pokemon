@@ -1,10 +1,13 @@
+"use client";
 import Image from "next/image";
 import Layout from "@/layout/pageLayout";
 import PokemonBanner from "@/assets/image/banner.png";
 import Button from "@/components/ui/button";
 import PokemonIcon from "@/components/icon/pokemon";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   return (
     <Layout>
       <div className=" h-full gap-4 flex flex-col-reverse justify-center items-center sm:flex-col-reverse md:flex-col-reverse lg:flex-row">
@@ -17,7 +20,10 @@ export default function Home() {
             abilities
           </p>
           <div className="my-5 w-full text-center md:text-center lg:text-left">
-            <Button className="w-[200px] py-2 md:py-3">
+            <Button
+              className="w-[200px] py-2 md:py-3"
+              onClick={() => router.push("/pokedex")}
+            >
               <div className="flex flex-row justify-center items-center gap-1">
                 <p>See pokemons</p>
                 <PokemonIcon />
