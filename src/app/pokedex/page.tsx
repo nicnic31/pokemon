@@ -7,7 +7,6 @@ import Search from "@/components/search";
 import Button from "@/components/ui/button";
 import FilterIcon from "@/components/icon/filter";
 import useModal from "@/components/modal/context";
-import Card from "@/components/card";
 import Loader from "@/components/loader";
 import useFilterType from "@/stores/useFilterType";
 import FilterStorage from "@/components/filterStorage";
