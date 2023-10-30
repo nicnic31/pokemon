@@ -11,6 +11,7 @@ import Card from "@/components/card";
 import Loader from "@/components/loader";
 import useFilterType from "@/stores/useFilterType";
 import FilterStorage from "@/components/filterStorage";
+import PokedexContent from "@/modules/pokedex/components/pokedexContent";
 
 export type Pokemons = {
   id: string;
@@ -146,17 +147,9 @@ export default function Pokedex() {
           handleDeleteChip={handleFilterChip}
         />
       )}
-
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="grid grid-cols-2 gap-5 pb-7 mt-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {pokemons &&
-            pokemons?.map((pokemon, idx) => (
-              <Card pokemon={pokemon} key={idx} />
-            ))}
-        </div>
-      )}
+      <div className="h-[80%]">
+        {loading ? <Loader /> : <PokedexContent pokemons={pokemons} />}
+      </div>
     </Layout>
   );
 }
