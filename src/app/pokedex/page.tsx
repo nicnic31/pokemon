@@ -22,6 +22,18 @@ export type Pokemons = {
 
 const convertIntoLowerCase = (word: string) => word.toLowerCase();
 
+// check if pokemon exist on the given array
+const checkPokemonExist = (pokemons: Pokemons[], name: string) =>
+  pokemons.find((pokemon) => pokemon?.name === name) ? true : false;
+
+// check if the search name match the pokemon name
+const checkSearchNameMatch = (pokemonName: string, searchName: string) =>
+  pokemonName.includes(searchName);
+
+// check if the type is exist in filter
+const checkTypeExist = (filterTypes: string[], type: string) =>
+  filterTypes.includes(type);
+
 export default function Pokedex() {
   const { openModal } = useModal((state) => ({ openModal: state.openModal }));
   const { data, isLoading }: any = useQueryData("pokemons", GET_POKEMONS, {
@@ -32,6 +44,8 @@ export default function Pokedex() {
     clearFilter: state.clearFilter,
     setFilter: state.setFilter,
   }));
+
+  const pokemonData = data ? data?.pokemons : [];
 
   const [pokemons, setPokemons] = useState<Pokemons[]>([]);
   const [name, setName] = useState<string>("");
@@ -53,23 +67,58 @@ export default function Pokedex() {
   }, [data]);
 
   useEffect(() => {
-    const storage = [...pokemons];
-    if (name !== "") {
-      const filteredPokemons = storage.filter((pokemon) => {
-        const lowerCaseName = convertIntoLowerCase(pokemon.name);
-        const lowerCaseSearch = convertIntoLowerCase(name);
-        return lowerCaseName.includes(lowerCaseSearch);
+    const pokemonsStorage: Pokemons[] = [...pokemonData];
+    const searchLowerCase = convertIntoLowerCase(name);
+    if (name !== "" && filter.length > 0) {
+      const newPokemonStorage: Pokemons[] = [];
+
+      pokemonsStorage.forEach((pokemon) => {
+        pokemon.types.forEach((type) => {
+          const pokemonNameLowerCase = convertIntoLowerCase(pokemon.name);
+          const isNameMatch = checkSearchNameMatch(
+            pokemonNameLowerCase,
+            searchLowerCase
+          );
+          const isPokemonExist = checkPokemonExist(
+            newPokemonStorage,
+            pokemon.name
+          );
+          const isTypeExist = checkTypeExist(filter, type);
+
+          if (!isPokemonExist && isNameMatch && isTypeExist) {
+            newPokemonStorage.push(pokemon);
+          }
+        });
+      });
+      setPokemons(newPokemonStorage);
+    } else if (name !== "" && filter.length === 0) {
+      const filteredPokemons = pokemonsStorage.filter((pokemon) => {
+        const pokemonNameLowerCase = convertIntoLowerCase(pokemon.name);
+        return checkSearchNameMatch(pokemonNameLowerCase, searchLowerCase);
       });
 
       setPokemons(filteredPokemons);
-    } else {
-      setPokemons(data?.pokemons);
-    }
-  }, [name]);
+    } else if (name === "" && filter.length > 0) {
+      const newPokemonStorage: Pokemons[] = [];
+      pokemonsStorage.forEach((pokemon) => {
+        pokemon.types.forEach((type) => {
+          const isTypeExist = checkTypeExist(filter, type);
+          const isPokemonExist = checkPokemonExist(
+            newPokemonStorage,
+            pokemon.name
+          );
+          if (isTypeExist && !isPokemonExist) {
+            newPokemonStorage.push(pokemon);
+          }
+        });
+      });
 
-  console.log("data", data?.pokemons);
-  console.log("data pokemons", pokemons);
-  console.log("loading", loading);
+      setPokemons(newPokemonStorage);
+    } else {
+      setPokemons(pokemonData);
+    }
+  }, [filter, name]);
+
   return (
     <Layout>
       <div className="flex flex-row align-items gap-2 mb-5">
@@ -90,7 +139,7 @@ export default function Pokedex() {
           </Button>
         </div>
       </div>
-      {filter.length > 1 && (
+      {filter.length > 0 && (
         <FilterStorage
           filters={filter}
           handleClear={() => clearFilter()}
