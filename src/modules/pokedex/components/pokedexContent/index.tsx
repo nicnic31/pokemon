@@ -21,7 +21,7 @@ export default function PokedexContent({
     <div className="w-full h-full">
       {pokemons && pokemons.length > 0 ? (
         <div className="w-full pb-7">
-          <div className="grid grid-cols-2 gap-5 pb-7 mt-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="grid grid-cols-2 gap-5 pb-7 mt-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {pokemons.slice(0, maxIndex)?.map((pokemon, idx) => (
               <Card pokemon={pokemon} key={idx} />
             ))}
