@@ -3,10 +3,11 @@ import Menu from "@/components/icon/menu";
 import PokemonLogo from "@/assets/image/logo.png";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
-import CloseIcon from "../icon/close";
-import Button from "../ui/button/button";
+import CloseIcon from "@/components/icon/close";
+import Button from "@/components/ui/button/button";
+import cn from "classnames";
 
 const menu = [
   {
@@ -46,6 +47,7 @@ const mobileMenu = [
 
 export default function Navbar() {
   const router = useRouter();
+  const pathName = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const handleMobileMenu = (path: string) => {
@@ -67,7 +69,12 @@ export default function Navbar() {
             {menu.map((option) => (
               <div
                 key={option.id}
-                className="text-slate-600 text-base tracking-wide hover:text-yellow-400"
+                className={cn(
+                  "text-base tracking-wide hover:text-yellow-400",
+                  pathName === option.path
+                    ? "text-dark-yellow font-semibold"
+                    : "text-slate-600"
+                )}
               >
                 <Link href={option.path}>
                   <p>{option.label}</p>
@@ -105,7 +112,12 @@ export default function Navbar() {
               {mobileMenu.map((menu) => (
                 <button
                   key={menu.id}
-                  className="rounded text-slate-600 font-semibold tracking-wide text-base w-full p-3 hover:text-white hover:bg-dark-yellow focus:bg-yellow focus:text-white"
+                  className={cn(
+                    "rounded font-semibold tracking-wide text-base w-full p-3 hover:text-white hover:bg-dark-yellow focus:bg-yellow focus:text-white",
+                    pathName === menu.path
+                      ? "text-white bg-yellow"
+                      : "text-slate-600"
+                  )}
                   onClick={() => handleMobileMenu(menu.path)}
                 >
                   {menu.label}
