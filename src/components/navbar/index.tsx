@@ -4,10 +4,11 @@ import PokemonLogo from "@/assets/image/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CloseIcon from "@/components/icon/close";
 import Button from "@/components/ui/button/button";
 import cn from "classnames";
+import useFilterType from "@/stores/useFilterType";
 
 const menu = [
   {
@@ -50,10 +51,20 @@ export default function Navbar() {
   const pathName = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
+  const { setFilter } = useFilterType((state) => ({
+    setFilter: state.setFilter,
+  }));
+
   const handleMobileMenu = (path: string) => {
     router.push(path);
     setIsMenuOpen(false);
   };
+
+  // set the filter to empty array when going to another page
+  useEffect(() => {
+    setFilter([]);
+  }, [pathName]);
+
   return (
     <div className="fixed top-0 bg-[#F5F7F8] h-[80px] z-10 border-b border-gray-300 w-full py-1 px-3 xs:px-1 sm:px-2 md:px-4 lg:px-24">
       <div className="grid grid-cols-2">
